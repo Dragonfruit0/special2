@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy BirthDay Jannnuuuu</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Prevent scrolling */
+            position: relative; /* Needed for absolute positioning of emojis */
+        }
+        
+        #login-form {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 10; /* Ensure form stays on top */
+        }
+        
+        label {
+            font-size: 20px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.9);
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 77, 121, 0.7);
+        }
+        
+        button {
+            background: #ff4d79;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        
+        button:hover {
+            background: #ff2357;
+            transform: scale(1.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Falling emoji animation */
+        .falling-emoji {
+            position: absolute;
+            font-size: 2em;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            from { transform: translateY(-50px); }
+            to { transform: translateY(100vh); }
+        }
+
+    </style>
+</head>
+<body>
+    <form id="login-form">
+        <label for="code">Enter Your Name:</label>
+        <input type="text" id="code" name="code" placeholder="Your Name">
+        <button id="submit-btn">Login</button>
+    </form>
+    <div id="countdown" style="color: white; font-size: 1.5em; text-align: center; margin-bottom: 20px; display: none;">
+        <div>Time Until Birthday Unlock:</div>
+        <div id="timer">00d 00h 00m 00s</div>
+    </div>
+    
+      <!-- Birthday Popup (Add before closing body tag) -->
+    <div id="birthday-popup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 30px; border-radius: 15px; text-align: center;">
+            <h2 style="color: #ff4d79;">🎉 Happy Birthday My Jaan! 🎂</h2>
+            <p>The wait is over! Your special surprise is ready 💖</p>
+            <button onclick="closePopup()" style="margin-top: 15px;">Let's Celebrate! 🥳</button>
+        </div>
+        <script>
+            // Timer Logic
+const targetDate = new Date('2025-03-01T00:00:00').getTime();
+let popupShown = false; // Flag to ensure popup is shown only once
+
+function updateTimer() {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+        document.getElementById('countdown').style.display = 'none';
+
+        if (!popupShown) { // Show the popup only once
+            document.getElementById('birthday-popup').style.display = 'flex';
+            popupShown = true;
+        }
+
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+    document.getElementById('countdown').style.display = 'block';
+    document.getElementById('login-form').style.display = 'none';
+}
+
+// Function to close the popup and allow login
+function closePopup() {
+    document.getElementById('birthday-popup').style.display = 'none';
+    document.getElementById('login-form').style.display = 'block';
+}
+
+// Update timer every second
+setInterval(updateTimer, 1000);
+updateTimer(); // Initial call
+
+            </script>
+    </div>
+    <div id="result"></div>
+    <script>
+        const form = document.getElementById('login-form');
+        const codeInput = document.getElementById('code');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultDiv = document.getElementById('result');
+
+        const secretCode = 'meri jaan'; // Replace with your secret code
+        const nextPageUrl = 'letter.html'; // Replace with the URL of the new page
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userInput = codeInput.value.trim();
+            if (userInput === secretCode) {
+                resultDiv.innerHTML = 'Baby';
+                window.location.href = nextPageUrl; // Redirect to new page
+            } else {
+                resultDiv.innerHTML = 'Naa Tum meri baby nhi hoo kon hooo tum';
+            }
+        });
+
+        // Function to create falling emojis
+        function createFallingEmoji() {
+            const emojis = ['❤️', '💖', '💘', '💕', '💞', '💓', '💗', '😍'];
+            const emoji = document.createElement('div');
+            emoji.classList.add('falling-emoji');
+            emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            emoji.style.animationDuration = (Math.random() * 3 + 2) + 's'; // Random speed for fall
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 5000); // Remove emoji after it falls
+        }
+
+        // Generate falling emojis every 500ms
+        setInterval(createFallingEmoji, 500);
+    </script>
+<!-- Add this before closing body tag -->
+<div id="music-player" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <audio id="bg-music" loop>
+        <source src="/workspaces/special/Labon Ko 2.0 _ Darshan Raval  Full Song  Kartik Aaryan, Triptii Dimri  K.K. Bhool Bhulaiyaa 3.mp3" type="audio/mpeg">
+    </audio>
+    <button onclick="toggleMusic()" style="background: #ff4d79; color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer;">
+        🎵 Toggle Music
+    </button>
+</div>
+
+<script>
+let isPlaying = false;
+const audio = document.getElementById('bg-music');
+
+function toggleMusic() {
+    isPlaying ? audio.pause() : audio.play();
+    isPlaying = !isPlaying;
+}
+</script>
+</body>
+</html>
